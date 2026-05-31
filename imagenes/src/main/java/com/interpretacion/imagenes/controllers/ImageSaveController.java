@@ -9,21 +9,23 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.interpretacion.imagenes.exceptions.ImagenEmptyException;
 
+import com.interpretacion.imagenes.services.ImageSaveService;
 
 @RestController
 @CrossOrigin(origins="*")
 public class ImageSaveController {
 
-   /*
     private final ImageSaveService imageSaveService;
     public ImageSaveController(ImageSaveService imageSaveService){ this.imageSaveService = imageSaveService; }
-    */
 
     @PostMapping("/save")
     public String saveImage(@RequestParam("image") MultipartFile image){
-        String fileName = image.getOriginalFilename();
         validaciones(image);
-        return "la imagen se ha recibido con el nombre: " + fileName;
+        try {
+            return imageSaveService.saveImage(image);
+        } catch (Exception e) {
+            return "Error al guardar la imagen: " + e.getMessage();
+        }
     }
     private void validaciones(MultipartFile imagen){
         if(imagen.isEmpty()){  throw new ImagenEmptyException("La imagen esta vacia");}
