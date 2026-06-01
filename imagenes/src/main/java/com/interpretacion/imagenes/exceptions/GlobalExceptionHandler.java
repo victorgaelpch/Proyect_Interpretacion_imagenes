@@ -14,4 +14,9 @@ public class GlobalExceptionHandler {
         ImageResponseException response = new ImageResponseException(LocalDate.now().toString());
         return new ResponseEntity<>(response,HttpStatus.BAD_REQUEST);
     }
+    @ExceptionHandler(ImagenException.class)
+    public ResponseEntity<ImageResponseException> imagenException(ImagenException ex){
+        ImageResponseException response = new ImageResponseException(LocalDate.now().toString());
+        return new ResponseEntity<>(response,HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }

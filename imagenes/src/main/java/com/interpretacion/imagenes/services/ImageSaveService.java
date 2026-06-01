@@ -5,10 +5,12 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.UUID;
 
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.interpretacion.imagenes.exceptions.ImagenException;
 
 @Service
 public class ImageSaveService {
@@ -32,22 +34,19 @@ public class ImageSaveService {
             try {
                 imagen.transferTo(file);
             } catch (Exception e) {
-            /*
-            throw new ImagenException("Error al guardar la imagen: " + e.getMessage());}
-            RespuestaAnalisisDTO analisis = restClient.post()
-            .uri("/analisis")
+            throw new ImagenException("Error al guardar la imagen: " + e.getMessage());
+            }
+            /* 
+            String analisis = restClient.post()
+            .uri("/gris")
             .contentType(MediaType.APPLICATION_JSON)
             .body(Map.of("nombre", nombreSeguro))
             .retrieve()
-            .body(RespuestaAnalisisDTO.class);
-            RespuestaImagen respuesta=new RespuestaImagen();
-            respuesta.setAnalisis(analisis);
-            respuesta.setImagenUrlGris(analisis.getNombreGris());
-            respuesta.setImagenUrlOriginal(nombreSeguro);
-            respuesta.setImagenUrlHsv(analisis.getNombreHsv());*/
+            .body(String.class);
+            */
+            return "Imagen guardada con éxito: " + file.getAbsolutePath();
             
-            }
-            return "la imagen se ha guardado con el nombre: " + nombreSeguro;
+            
     }
 
         private boolean rutaNoExiste() {
