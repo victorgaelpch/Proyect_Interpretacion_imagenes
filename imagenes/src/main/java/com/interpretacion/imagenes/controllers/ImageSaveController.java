@@ -17,11 +17,11 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.interpretacion.imagenes.exceptions.ImagenEmptyException;
+import com.interpretacion.imagenes.Dto.RespuestaImagenEditada;
 
 import com.interpretacion.imagenes.services.ImageSaveService;
-import org.springframework.http.MediaType;
-
+import com.interpretacion.imagenes.Dto.*;
+import com.interpretacion.imagenes.exceptions.*;
 @RestController
 @CrossOrigin(origins="*")
 public class ImageSaveController {
@@ -30,14 +30,15 @@ public class ImageSaveController {
     public ImageSaveController(ImageSaveService imageSaveService){ this.imageSaveService = imageSaveService; }
 
     @PostMapping("/imagen/save")
-    public String saveImage(@RequestParam("image") MultipartFile image){
+    public RespuestaImagenEditada saveImage(@RequestParam("image") MultipartFile image){
         validaciones(image);
         try {
             return imageSaveService.saveImage(image);
         } catch (Exception e) {
-            return "Error al guardar la imagen: " + e.getMessage();
+            throw new ImagenException("Error al guardar la imagen en disco: " + e.getMessage());
         }
     }
+    
     private void validaciones(MultipartFile imagen){
         if(imagen.isEmpty()){  throw new ImagenEmptyException("La imagen esta vacia");}
     }

@@ -22,6 +22,10 @@ app = FastAPI()
 def read_root():
     return {"Hello": "World"}
 
+class RespuestaImagenEditada(BaseModel):
+    nombreImagenOriginal:str
+    nombreImagenEditada:str
+
 class NombreImagen(BaseModel):
     nombre:str
 
@@ -41,4 +45,4 @@ def editar_imagen(nombre: NombreImagen):
     nueva_ruta = f"C:/imagenesAnalizadas/{nombre_python}"
     cv2.imwrite(nueva_ruta, gray_imagen)
     
-    return "Imagen editada desde fastapi y guardada exitosamente"
+    return RespuestaImagenEditada(nombreImagenOriginal=nombre.nombre, nombreImagenEditada=nombre_python)

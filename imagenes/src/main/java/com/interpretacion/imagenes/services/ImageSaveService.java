@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.interpretacion.imagenes.Dto.RespuestaImagenEditada;
 import com.interpretacion.imagenes.exceptions.*;
 
 @Service
@@ -24,7 +25,7 @@ public class ImageSaveService {
         }
                 private final String RUTA_BASE="C:\\imagenesAnalizadas\\";
 
-        public String saveImage(MultipartFile imagen) throws IOException{
+        public RespuestaImagenEditada saveImage(MultipartFile imagen) throws IOException{
 
             tipoImagen(imagen);
             String extencion=imagen.getOriginalFilename().substring(imagen.getOriginalFilename().lastIndexOf("."));
@@ -38,13 +39,17 @@ public class ImageSaveService {
             } catch (Exception e) {
             throw new ImagenException("Error al guardar la imagen en disco: " + e.getMessage());
             }
-            String analisis = restClient.post()
+            RespuestaImagenEditada respuesta = restClient.post()
             .uri("/editarImagen")
             .contentType(MediaType.APPLICATION_JSON)
             .body(Map.of("nombre", nombreSeguro))
             .retrieve()
-            .body(String.class);
-            return analisis;
+            .body(RespuestaImagenEditada.class);
+            RespuestaImagenEditada res = new RespuestaImagenEditada();
+            res.setNombreImagenOriginal(respuesta.getNombreImagenOriginal());
+            res.setNombreImagenEditada(respuesta.getNombreImagenEditada());
+
+            return res;
             
             
     }
