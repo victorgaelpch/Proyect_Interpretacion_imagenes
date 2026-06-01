@@ -1,5 +1,5 @@
 const input =document.getElementById("input-original")
-const imagen_original=document.getElementById("img-original")
+const imagen_Original=document.getElementById("img-original")
 const imagen_Editada=document.getElementById("img-editada")
 const boton=document.getElementById("btn-subir-Imagen")
 const p_estado=document.getElementById("p-estado")
@@ -12,7 +12,7 @@ input.addEventListener("change", () => {
         return;
     }
     const url = URL.createObjectURL(img);
-    imagen_original.src = url;
+    imagen_Original.src = url;
     p_estado.textContent = `Imagen cargada`;
 });
 
@@ -32,7 +32,7 @@ async function subirImagen() {
     formData.append("image", img);
     p_estado.textContent = "Enviando imagen al servidor...";
     try {
-        const respuesta = await fetch("http://127.0.0.1:8080/save", {
+        const respuesta = await fetch("http://127.0.0.1:8080/imagen/save", {
         method: "POST",
         body: formData,
         });
@@ -43,9 +43,11 @@ async function subirImagen() {
         return;
         }
         if (respuesta.ok) {
-        const data = await respuesta.text();
+        const data = await respuesta.json();
         console.log(data);
-        p_estado.textContent = data;
+        p_estado.textContent = "Imagen procesada exitosamente";
+        imagen_Original.src ="http://127.0.0.1:8080/imagen/DesdeElfron_ten/"+ data.nombreImagenOriginal;
+        imagen_Editada.src ="http://127.0.0.1:8080/imagen/DesdeElfron_ten/"+ data.nombreImagenEditada;
         }
     } catch (error) {console.error("Error al enviar la imagen:", error);}
 }
