@@ -39,7 +39,6 @@ def editar_imagen(nombre: NombreImagen):
     gray_imagen=cv2.cvtColor(imagen, cv2.COLOR_BGR2GRAY)
     nombre_python = f"{nombre.nombre.split('.')[0]}_gris.{extension}"
     nueva_ruta = f"C:/imagenesAnalizadas/{nombre_python}"
-
     cv2.imwrite(nueva_ruta, gray_imagen)
     
     return "Imagen editada desde fastapi y guardada exitosamente"
