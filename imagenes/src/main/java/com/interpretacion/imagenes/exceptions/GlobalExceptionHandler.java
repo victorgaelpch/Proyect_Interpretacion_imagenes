@@ -11,22 +11,22 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GlobalExceptionHandler {
     @ExceptionHandler(ImagenEmptyException.class)
     public ResponseEntity<ImageResponseException> imagenEmptyException(ImagenEmptyException ex){
-        ImageResponseException response = new ImageResponseException(LocalDate.now().toString());
+        ImageResponseException response = new ImageResponseException(ex.getMessage(), HttpStatus.BAD_REQUEST.value(), "BAD_REQUEST", "/imagen/gris", LocalDate.now().toString());
         return new ResponseEntity<>(response,HttpStatus.BAD_REQUEST);
     }
     @ExceptionHandler(ImagenException.class)
     public ResponseEntity<ImageResponseException> imagenException(ImagenException ex){
-        ImageResponseException response = new ImageResponseException(LocalDate.now().toString());
+        ImageResponseException response = new ImageResponseException(ex.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR.value(),"INTERNAL SERVER", " ",LocalDate.now().toString());
         return new ResponseEntity<>(response,HttpStatus.INTERNAL_SERVER_ERROR);
     }
     @ExceptionHandler(ImagenMaxUploadSizeException.class)
     public ResponseEntity<ImageResponseException> imagenMaxUploadSizeException(ImagenMaxUploadSizeException ex){
-        ImageResponseException response = new ImageResponseException(LocalDate.now().toString());
+        ImageResponseException response = new ImageResponseException(ex.getMessage(), HttpStatus.CONTENT_TOO_LARGE.value(), "PAYLOAD_TOO_LARGE", "/imagen/gris",LocalDate.now().toString());
         return new ResponseEntity<>(response,HttpStatus.BAD_REQUEST);
     }
     @ExceptionHandler(ImagenContentTypeException.class)
     public ResponseEntity<ImageResponseException> imagenContentTypeException(ImagenContentTypeException ex){
-        ImageResponseException response = new ImageResponseException(LocalDate.now().toString());
+        ImageResponseException response = new ImageResponseException(ex.getMessage(), HttpStatus.UNSUPPORTED_MEDIA_TYPE.value(), "UNSUPPORTED_MEDIA_TYPE", "/imagen/gris",LocalDate.now().toString());
         return new ResponseEntity<>(response,HttpStatus.BAD_REQUEST);
     }
 }

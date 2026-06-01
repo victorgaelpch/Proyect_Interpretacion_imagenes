@@ -39,7 +39,7 @@ async function subirImagen() {
         if (!respuesta.ok) {
         const errorData = await respuesta.json();
         console.error("Error del servidor:", errorData);
-        p_estado.textContent =errorData.message;
+        p_estado.textContent=errorData.message;
         return;
         }
         if (respuesta.ok) {

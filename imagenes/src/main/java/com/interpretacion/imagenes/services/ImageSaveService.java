@@ -23,7 +23,7 @@ public class ImageSaveService {
             .baseUrl("http://localhost:8000/")
             .build();
         }
-                private final String RUTA_BASE="C:\\imagenesAnalizadas\\";
+        private final String RUTA_BASE="C:\\imagenesAnalizadas\\";
 
         public RespuestaImagenEditada saveImage(MultipartFile imagen) throws IOException{
 
@@ -54,7 +54,7 @@ public class ImageSaveService {
             
     }
         private void tipoImagen(MultipartFile imagen) throws IOException{
-            List<String> tipoPermitidos= List.of("image/png","image/jpeg","image/jpg","image/webp");
+            List<String> tipoPermitidos= List.of("image/png","image/jpeg","image/jpg");
             Tika tika = new Tika();
             String contentType = tika.detect(imagen.getInputStream());
             if(!tipoPermitidos.contains(contentType)){
