@@ -2,13 +2,17 @@ package com.interpretacion.imagenes.services;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import org.apache.tika.Tika;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.interpretacion.imagenes.exceptions.*;
 
 @Service
 public class ImageSaveService {
@@ -22,7 +26,7 @@ public class ImageSaveService {
 
         public String saveImage(MultipartFile imagen) throws IOException{
 
-            //tipoImagen(imagen);
+            tipoImagen(imagen);
             String extencion=imagen.getOriginalFilename().substring(imagen.getOriginalFilename().lastIndexOf("."));
             String nombreSeguro= UUID.randomUUID().toString()+"_imagenOriginal"+extencion;
             if(rutaNoExiste()) {
@@ -32,24 +36,28 @@ public class ImageSaveService {
             try {
                 imagen.transferTo(file);
             } catch (Exception e) {
-            /*
-            throw new ImagenException("Error al guardar la imagen: " + e.getMessage());}
-            RespuestaAnalisisDTO analisis = restClient.post()
-            .uri("/analisis")
+            throw new ImagenException("Error al guardar la imagen: " + e.getMessage());
+            }
+            /* 
+            String analisis = restClient.post()
+            .uri("/gris")
             .contentType(MediaType.APPLICATION_JSON)
             .body(Map.of("nombre", nombreSeguro))
             .retrieve()
-            .body(RespuestaAnalisisDTO.class);
-            RespuestaImagen respuesta=new RespuestaImagen();
-            respuesta.setAnalisis(analisis);
-            respuesta.setImagenUrlGris(analisis.getNombreGris());
-            respuesta.setImagenUrlOriginal(nombreSeguro);
-            respuesta.setImagenUrlHsv(analisis.getNombreHsv());*/
+            .body(String.class);
+            */
+            return "Imagen guardada con éxito: " + file.getAbsolutePath();
             
-            }
-            return "la imagen se ha guardado con el nombre: " + nombreSeguro;
+            
     }
-
+        private void tipoImagen(MultipartFile imagen) throws IOException{
+            List<String> tipoPermitidos= List.of("image/png","image/jpeg","image/jpg","image/webp");
+            Tika tika = new Tika();
+            String contentType = tika.detect(imagen.getInputStream());
+            if(!tipoPermitidos.contains(contentType)){
+            throw new ImagenContentTypeException("El tipo de imagen no es permitido");
+            }  
+        }
         private boolean rutaNoExiste() {
             File ruta=new File(RUTA_BASE);
             return !ruta.exists();
