@@ -36,17 +36,15 @@ public class ImageSaveService {
             try {
                 imagen.transferTo(file);
             } catch (Exception e) {
-            throw new ImagenException("Error al guardar la imagen: " + e.getMessage());
+            throw new ImagenException("Error al guardar la imagen en disco: " + e.getMessage());
             }
-            /* 
             String analisis = restClient.post()
-            .uri("/gris")
+            .uri("/editarImagen")
             .contentType(MediaType.APPLICATION_JSON)
             .body(Map.of("nombre", nombreSeguro))
             .retrieve()
             .body(String.class);
-            */
-            return "Imagen guardada con éxito: " + file.getAbsolutePath();
+            return analisis;
             
             
     }
