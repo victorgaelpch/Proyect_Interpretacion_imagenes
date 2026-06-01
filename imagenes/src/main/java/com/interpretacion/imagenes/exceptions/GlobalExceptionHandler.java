@@ -24,4 +24,9 @@ public class GlobalExceptionHandler {
         ImageResponseException response = new ImageResponseException(LocalDate.now().toString());
         return new ResponseEntity<>(response,HttpStatus.BAD_REQUEST);
     }
+    @ExceptionHandler(ImagenContentTypeException.class)
+    public ResponseEntity<ImageResponseException> imagenContentTypeException(ImagenContentTypeException ex){
+        ImageResponseException response = new ImageResponseException(LocalDate.now().toString());
+        return new ResponseEntity<>(response,HttpStatus.BAD_REQUEST);
+    }
 }
