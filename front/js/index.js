@@ -32,7 +32,7 @@ async function subirImagen() {
     formData.append("image", img);
     p_estado.textContent = "Enviando imagen al servidor...";
     try {
-        const respuesta = await fetch("http://127.0.0.1:8080/save", {
+        const respuesta = await fetch("http://127.0.0.1:8080/imagen/save", {
         method: "POST",
         body: formData,
         });
