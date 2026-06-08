@@ -2,6 +2,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 import cv2
 from pydantic import BaseModel
+from procesamiento import procesar_imagen
 
 app = FastAPI()
 """origins = [
@@ -9,29 +10,32 @@ app = FastAPI()
 ]"""
 
 app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_methods=["*"],
-    allow_headers=["*"]
+    CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"]
 )
 
 
-
 app = FastAPI()
+
+
 @app.get("/")
 def read_root():
     return {"Hello": "World"}
 
+
 class RespuestaImagenEditada(BaseModel):
-    nombreImagenOriginal:str
-    nombreImagenEditada:str
+    nombreImagenOriginal: str
+    nombreImagenEditada: str
+
 
 class NombreImagen(BaseModel):
-    nombre:str
+    nombre: str
+
 
 @app.post("/editarImagen")
 def editar_imagen(nombre: NombreImagen):
+
     ruta = f"C:/imagenesAnalizadas/{nombre.nombre}"
+
     imagen = cv2.imread(ruta)
 
     if imagen is None:
@@ -39,10 +43,16 @@ def editar_imagen(nombre: NombreImagen):
 
     extension = nombre.nombre.split(".")[-1].lower()
 
-    
-    gray_imagen=cv2.cvtColor(imagen, cv2.COLOR_BGR2GRAY)
-    nombre_python = f"{nombre.nombre.split('.')[0]}_gris.{extension}"
+    resultado = procesar_imagen(imagen)
+
+    print(resultado["coordenadas"])
+
+    nombre_python = f"{nombre.nombre.split('.')[0]}_corregida.{extension}"
+
     nueva_ruta = f"C:/imagenesAnalizadas/{nombre_python}"
-    cv2.imwrite(nueva_ruta, gray_imagen)
-    
-    return RespuestaImagenEditada(nombreImagenOriginal=nombre.nombre, nombreImagenEditada=nombre_python)
+
+    cv2.imwrite(nueva_ruta, resultado["imagen"])
+
+    return RespuestaImagenEditada(
+        nombreImagenOriginal=nombre.nombre, nombreImagenEditada=nombre_python
+    )
