@@ -22,9 +22,19 @@ def read_root():
     return {"Hello": "World"}
 
 
+class Punto(BaseModel):
+    x: int
+    y: int
+
+
 class RespuestaImagenEditada(BaseModel):
     nombreImagenOriginal: str
     nombreImagenEditada: str
+    nombreImagenEscaneada: str
+    coordenadas: list[Punto]
+    anchoResultado: int
+    altoResultado: int
+    umbral: float
 
 
 class NombreImagen(BaseModel):
@@ -45,14 +55,21 @@ def editar_imagen(nombre: NombreImagen):
 
     resultado = procesar_imagen(imagen)
 
-    print(resultado["coordenadas"])
-
     nombre_python = f"{nombre.nombre.split('.')[0]}_corregida.{extension}"
+    nombre_python_esc = f"{nombre.nombre.split('.')[0]}_escaneada.{extension}"
 
     nueva_ruta = f"C:/imagenesAnalizadas/{nombre_python}"
+    nueva_ruta_esc = f"C:/imagenesAnalizadas/{nombre_python_esc}"
 
-    cv2.imwrite(nueva_ruta, resultado["imagen"])
+    cv2.imwrite(nueva_ruta, resultado["imagen_editada"])
+    cv2.imwrite(nueva_ruta_esc, resultado["imagen_escaneada"])
 
     return RespuestaImagenEditada(
-        nombreImagenOriginal=nombre.nombre, nombreImagenEditada=nombre_python
+        nombreImagenOriginal=nombre.nombre,
+        nombreImagenEditada=nombre_python,
+        nombreImagenEscaneada=nombre_python_esc,
+        coordenadas=resultado["coordenadas"],
+        anchoResultado=resultado["anchoResultado"],
+        altoResultado=resultado["altoResultado"],
+        umbral=resultado["umbral"],
     )

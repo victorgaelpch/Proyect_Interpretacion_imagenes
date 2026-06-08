@@ -1,12 +1,13 @@
 import cv2
 from skimage.filters import threshold_local
 
+
 def escanear(imagen):
 
     imagen_gris = cv2.cvtColor(imagen, cv2.COLOR_BGR2GRAY)
 
-    umbral_local = threshold_local(imagen_gris, 11, offset=10, method="gaussian")
+    valor_umbral, imagen_escaneada = cv2.threshold(
+        imagen_gris, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU
+    )
 
-    imagen_escaneada = (imagen_gris > umbral_local).astype("uint8") * 255
-
-    return imagen_escaneada
+    return {"imagen": imagen_escaneada, "umbral": float(valor_umbral)}

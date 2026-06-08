@@ -3,6 +3,8 @@ import numpy as np
 import imutils
 from transformacion import transformar_perspectiva
 from escaner import escanear
+from ordenamiento_puntos import ordenar_puntos
+
 
 def procesar_imagen(imagen):
 
@@ -74,6 +76,17 @@ def procesar_imagen(imagen):
 
     imagen_corregida = transformar_perspectiva(imagen_original, documento_detectado)
 
-    imagen_corregida = escanear(imagen_corregida)
+    documento_ordenado = ordenar_puntos(documento_detectado)
+    coordenadas = [
+        {"x": int(punto[0]), "y": int(punto[1])} for punto in documento_ordenado
+    ]
+    resultado_escaneo = escanear(imagen_corregida)
 
-    return {"imagen": imagen_corregida, "coordenadas": documento_detectado.tolist()}
+    return {
+        "imagen_editada": imagen_corregida,
+        "imagen_escaneada": resultado_escaneo["imagen"],
+        "coordenadas": coordenadas,
+        "anchoResultado": imagen_corregida.shape[1],
+        "altoResultado": imagen_corregida.shape[0],
+        "umbral": resultado_escaneo["umbral"],
+    }
