@@ -1,0 +1,192 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    padding: 30px;
+    color: #2c3e50;
+    font-family: "Segoe UI", Arial, sans-serif;
+    background-color: #eef1f5;
+}
+
+#main-principal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+}
+
+#contenedor-imgs {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    gap: 15px;
+}
+
+.contenedor-imgs-individual {
+    background-color: white;
+    border: 1px solid #d5dbe3;
+    border-radius: 10px;
+}
+
+#contenedor-imgs p {
+    width: 100%;
+    padding: 5px 0;
+    color: white;
+    font-size: 1.2rem;
+    font-weight: 600;
+    text-align: center;
+    background-color: #2f5d8c;
+    border-radius: 10px 10px 0 0;
+}
+
+.contenedor-img {
+    width: 400px;
+    height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+img {
+    max-width: 390px;
+    max-height: 390px;
+    object-fit: contain;
+    background-color: #f8fafc;
+    border-radius: 5px;
+}
+
+#contenedor-secundario {
+    display: grid;
+    grid-template-columns: repeat(3, auto) 1fr;
+    gap: 15px;
+    align-items: center;
+}
+
+#contenedor-tablas {
+    display: flex;
+    gap: 30px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 15px;
+}
+
+.clase-tabla {
+    width: 100%;
+}
+
+#contenedor-tablas p {
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+.contenedor-tabla {
+    display: flex;
+    justify-content: center;
+}
+
+#tabla-coordenadas,
+#tabla-info {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#tabla-coordenadas th,
+#tabla-info th {
+    color: white;
+    font-weight: 600;
+    background-color: #2f5d8c;
+}
+
+#tabla-coordenadas th,
+#tabla-coordenadas td,
+#tabla-info th,
+#tabla-info td {
+    padding: 12px;
+    text-align: center;
+    border: 1px solid #d7dde5;
+    word-wrap: break-word;
+}
+
+#tabla-coordenadas tr:nth-child(even),
+#tabla-info tr:nth-child(even) {
+    background-color: #f8fafc;
+}
+
+#tabla-coordenadas tr:hover,
+#tabla-info tr:hover {
+    background-color: #eef5fc;
+}
+
+#contenedor-acciones {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+}
+
+#p-estado {
+    margin: 20px 0 15px;
+    font-weight: 600;
+    color: #34495e;
+    text-align: center;
+}
+
+#p-subir-imagen {
+    margin-bottom: 10px;
+    font-weight: 500;
+    text-align: center;
+}
+
+#input-original {
+    padding: 8px;
+    background-color: white;
+    border: 1px solid #cfd6dd;
+    border-radius: 5px;
+}
+
+#btn-subir-Imagen {
+    margin-left: 10px;
+    padding: 10px 22px;
+    color: white;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    border-radius: 6px;
+    background-color: #2f5d8c;
+    transition: 0.2s;
+}
+
+#btn-subir-Imagen:hover {
+    background-color: #254a70;
+}
+
+@media (max-width: 900px) {
+
+    #contenedor-imgs {
+        grid-template-columns: 1fr;
+    }
+
+    #contenedor-secundario {
+        display: flex;
+        flex-direction: column;
+    }
+
+    #contenedor-tablas {
+        flex-direction: column;
+    }
+
+    img {
+        height: 350px;
+    }
+
+    #btn-subir-Imagen {
+        margin-top: 10px;
+        margin-left: 0;
+    }
+}
